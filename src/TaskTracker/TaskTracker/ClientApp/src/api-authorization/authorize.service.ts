@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User, UserManager } from 'oidc-client';
-import { BehaviorSubject, concat, from, Observable } from 'rxjs';
+import {BehaviorSubject, catchError, concat, from, Observable} from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ApplicationPaths, ApplicationName } from './api-authorization.constants';
 
@@ -88,7 +88,7 @@ export class AuthorizeService {
         this.userSubject.next(user.profile);
         return this.success(state);
       } catch (popupError) {
-        if (popupError.message === 'Popup window closed') {
+        if ((popupError as Error).message === 'Popup window closed') {
           // The user explicitly cancelled the login action by closing an opened popup.
           return this.error('The user closed the window.');
         } else if (!this.popUpDisabled) {
@@ -101,7 +101,7 @@ export class AuthorizeService {
           return this.redirect();
         } catch (redirectError) {
           console.log('Redirect authentication error: ', redirectError);
-          return this.error(redirectError);
+          return this.error((redirectError as Error).message);
         }
       }
     }
@@ -136,7 +136,7 @@ export class AuthorizeService {
         return this.redirect();
       } catch (redirectSignOutError) {
         console.log('Redirect signout error: ', redirectSignOutError);
-        return this.error(redirectSignOutError);
+        return this.error((redirectSignOutError as Error).message);
       }
     }
   }
@@ -149,7 +149,7 @@ export class AuthorizeService {
       return this.success(response && response.state);
     } catch (error) {
       console.log(`There was an error trying to log out '${error}'.`);
-      return this.error(error);
+      return this.error((error as Error).message);
     }
   }
 
