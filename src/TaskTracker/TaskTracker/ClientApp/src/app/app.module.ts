@@ -11,6 +11,9 @@ import {CounterComponent} from './counter/counter.component';
 import {FetchDataComponent} from './fetch-data/fetch-data.component';
 import {ApiAuthorizationModule} from 'src/api-authorization/api-authorization.module';
 import {AuthorizeInterceptor} from 'src/api-authorization/authorize.interceptor';
+import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
+import {ButtonModule} from "primeng/button";                  //api
+
 
 @NgModule({
   declarations: [
@@ -18,14 +21,16 @@ import {AuthorizeInterceptor} from 'src/api-authorization/authorize.interceptor'
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AccordionModule,
+    ButtonModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true}
