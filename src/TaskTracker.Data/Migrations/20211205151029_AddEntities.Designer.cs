@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TaskTracker.Data;
@@ -11,9 +12,10 @@ using TaskTracker.Data;
 namespace TaskTracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211205151029_AddEntities")]
+    partial class AddEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,7 +316,7 @@ namespace TaskTracker.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasDefaultValueSql();
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
@@ -358,7 +360,7 @@ namespace TaskTracker.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasDefaultValueSql();
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
@@ -388,7 +390,7 @@ namespace TaskTracker.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasDefaultValueSql();
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
@@ -407,7 +409,7 @@ namespace TaskTracker.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasDefaultValueSql();
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
@@ -428,7 +430,7 @@ namespace TaskTracker.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasDefaultValueSql();
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
@@ -444,7 +446,7 @@ namespace TaskTracker.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasDefaultValueSql();
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
@@ -466,7 +468,7 @@ namespace TaskTracker.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasDefaultValueSql();
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
@@ -482,7 +484,7 @@ namespace TaskTracker.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasDefaultValueSql();
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
@@ -506,7 +508,7 @@ namespace TaskTracker.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasDefaultValueSql();
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
@@ -522,7 +524,7 @@ namespace TaskTracker.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasDefaultValueSql();
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
