@@ -1,6 +1,6 @@
 ﻿namespace TaskTracker.Models;
 
-public class Task:BaseEntity
+public class Task : BaseEntity
 {
 	public Guid ColumnID { get; set; }
 
