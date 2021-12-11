@@ -1,0 +1,158 @@
+<p-toast></p-toast>
+
+<div class="card">
+
+  <p-table
+    #dt
+    [(first)]="Result.firstItemOnPage"
+    [(selection)]="SelectedTeams"
+    [globalFilterFields]="[
+      'title',
+    ]"
+    [rowHover]="true"
+    [rows]="Result.pageSize"
+    [showCurrentPageReport]="true"
+    [totalRecords]="Result.totalItemCount"
+    [value]="Result.source"
+    dataKey="id"
+    style="height: 70vh;"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="p-m-0">Manage Teams</h5>
+        <div>
+          <span class="p-input-icon-left mr-2">
+          <i class="pi pi-search"></i>
+          <input
+            (input)="dt.filterGlobal(getValue($event), 'contains')"
+            pInputText
+            placeholder="Search..."
+            type="text"
+          />
+        </span>
+          <button (click)="openNew()" class="p-button-success mr-2" icon="pi pi-plus" label="New" pButton
+                  pRipple></button>
+          <button (click)="deleteSelected()" [disabled]="!SelectedTeams || !SelectedTeams.length"
+                  class="p-button-danger" icon="pi pi-trash" label="Delete"
+                  pButton pRipple></button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="title">
+          Title
+          <p-sortIcon field="title"></p-sortIcon>
+        </th>
+        <th pSortableColumn="description">
+          Description
+          <p-sortIcon field="description"></p-sortIcon>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template let-team pTemplate="body">
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="team"></p-tableCheckbox>
+        </td>
+        <td>{{ team.title }}</td>
+        <td>{{ team.description }}</td>
+        <td>
+          <button
+            (click)="edit(team)"
+            class="p-button-rounded p-button-success mr-2"
+            icon="pi pi-pencil"
+            pButton
+            pRipple
+          ></button>
+          <button
+            (click)="delete(team)"
+            class="p-button-rounded p-button-warning"
+            icon="pi pi-trash"
+            pButton
+            pRipple
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <tr>
+        <td colspan="4" style="background-color:var(--bs-body-bg);">
+          <p-paginator (onPageChange)="paginate($event)" [rows]="Result.pageSize" [totalRecords]="Result.totalItemCount" class=""></p-paginator>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        You create {{ Result.source ? Result.totalItemCount : 0 }} teams.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+
+<p-dialog
+  [(visible)]="TeamDialog"
+  [modal]="true"
+  [style]="{ width: '450px' }"
+  header="Team Details"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="title">Title</label>
+      <input
+        [(ngModel)]="Team.title"
+        autofocus
+        id="title"
+        pInputText
+        required
+        type="text"
+      />
+      <small *ngIf="submitted && !Team.title" class="p-invalid"
+      >Name is required.</small
+      >
+    </div>
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea
+        [(ngModel)]="Team.description"
+        cols="20"
+        id="description"
+        pInputTextarea
+        required
+        rows="3"
+      ></textarea>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      (click)="hideDialog()"
+      class="p-button-text"
+      icon="pi pi-times"
+      label="Cancel"
+      pButton
+      pRipple
+    ></button>
+    <button
+      (click)="save()"
+      class="p-button-text"
+      icon="pi pi-check"
+      label="Save"
+      pButton
+      pRipple
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+

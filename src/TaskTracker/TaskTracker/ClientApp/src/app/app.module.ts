@@ -7,12 +7,25 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NavMenuComponent} from './nav-menu/nav-menu.component';
 import {HomeComponent} from './home/home.component';
-import {CounterComponent} from './counter/counter.component';
-import {FetchDataComponent} from './fetch-data/fetch-data.component';
 import {ApiAuthorizationModule} from 'src/api-authorization/api-authorization.module';
 import {AuthorizeInterceptor} from 'src/api-authorization/authorize.interceptor';
-import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
-import {ButtonModule} from "primeng/button";                  //api
+import {AccordionModule} from 'primeng/accordion'; //accordion and accordion tab
+import {ButtonModule} from "primeng/button";
+import {MessagesModule} from "primeng/messages";
+import {RatingModule} from "primeng/rating";
+import {ToolbarModule} from "primeng/toolbar";
+import {FileUploadModule} from "primeng/fileupload";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {TableModule} from "primeng/table";
+import {RippleModule} from "primeng/ripple";
+import {ToastModule} from "primeng/toast";
+import {DialogModule} from "primeng/dialog";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {InputTextModule} from "primeng/inputtext";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {PaginatorModule} from "primeng/paginator";
+import { TeamListComponent } from './team/team-list/team-list.component';
 
 
 @NgModule({
@@ -20,8 +33,7 @@ import {ButtonModule} from "primeng/button";                  //api
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
+    TeamListComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -30,10 +42,24 @@ import {ButtonModule} from "primeng/button";                  //api
     ApiAuthorizationModule,
     AppRoutingModule,
     AccordionModule,
-    ButtonModule
+    ButtonModule,
+    MessagesModule,
+    RatingModule,
+    ToolbarModule,
+    FileUploadModule,
+    TableModule,
+    RippleModule,
+    ToastModule,
+    DialogModule,
+    ConfirmDialogModule,
+    BrowserAnimationsModule,
+    InputTextModule,
+    InputTextareaModule,
+    PaginatorModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true},
+    MessageService, ConfirmationService
   ],
   bootstrap: [AppComponent]
 })

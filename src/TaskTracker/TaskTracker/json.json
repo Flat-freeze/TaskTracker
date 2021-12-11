@@ -1,0 +1,20 @@
+{
+  "result": [
+    {
+      "users": [],
+      "projects": [],
+      "id": "99b33998-1688-488d-883b-25cc157b8a50",
+      "title": "Some command",
+      "description": "some desc",
+      "createdBy": "fb18ff0c-433f-4c44-bdce-2e76ef250919",
+      "createdAt": "2021-12-07T05:57:47.466735Z",
+      "updatedBy": "fb18ff0c-433f-4c44-bdce-2e76ef250919",
+      "updatedAt": "2021-12-07T05:57:47.466735Z"
+    }
+  ],
+  "ok": true,
+  "activityId": "S39L37yIMI9",
+  "metadata": null,
+  "exception": null,
+  "logs": []
+}

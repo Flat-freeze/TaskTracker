@@ -6,6 +6,6 @@ public class Project : BaseEntity
 
 	public Guid CommandId { get; set; }
 
-	public virtual Command             Command { get; set; }
+	public virtual Team             Command { get; set; }
 	public virtual ICollection<Column> Columns { get; set; }
 }

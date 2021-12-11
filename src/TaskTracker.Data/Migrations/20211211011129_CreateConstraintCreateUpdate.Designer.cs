@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TaskTracker.Data;
@@ -11,9 +12,10 @@ using TaskTracker.Data;
 namespace TaskTracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211211011129_CreateConstraintCreateUpdate")]
+    partial class CreateConstraintCreateUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -395,6 +397,7 @@ namespace TaskTracker.Data.Migrations
                         .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("IdCreatedBy")
@@ -442,6 +445,7 @@ namespace TaskTracker.Data.Migrations
                         .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("IdCreatedBy")
@@ -487,6 +491,7 @@ namespace TaskTracker.Data.Migrations
                         .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("IdCreatedBy")
@@ -534,6 +539,7 @@ namespace TaskTracker.Data.Migrations
                         .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("IdCreatedBy")

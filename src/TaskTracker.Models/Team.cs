@@ -1,8 +1,8 @@
 ﻿namespace TaskTracker.Models;
 
-public class Command : BaseEntity
+public class Team : BaseEntity
 {
-	public Command()
+	public Team()
 	{
 		Users    = new HashSet<ApplicationUser>();
 		Projects = new HashSet<Project>();
@@ -11,3 +11,4 @@ public class Command : BaseEntity
 	public virtual ICollection<ApplicationUser> Users    { get; set; }
 	public virtual ICollection<Project>         Projects { get; set; }
 }
+

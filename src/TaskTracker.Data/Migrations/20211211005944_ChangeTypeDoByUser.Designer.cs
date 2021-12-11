@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TaskTracker.Data;
@@ -11,9 +12,10 @@ using TaskTracker.Data;
 namespace TaskTracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211211005944_ChangeTypeDoByUser")]
+    partial class ChangeTypeDoByUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -316,22 +318,16 @@ namespace TaskTracker.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("IdCreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("CreatedBy");
-
-                    b.Property<string>("IdUpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("UpdatedBy");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -367,6 +363,10 @@ namespace TaskTracker.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -394,18 +394,13 @@ namespace TaskTracker.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("IdCreatedBy")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("CreatedBy");
-
-                    b.Property<string>("IdUpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("UpdatedBy");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
@@ -419,11 +414,11 @@ namespace TaskTracker.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
-
-                    b.HasIndex("IdCreatedBy");
-
-                    b.HasIndex("IdUpdatedBy");
 
                     b.HasIndex("ProjectId");
 
@@ -441,18 +436,13 @@ namespace TaskTracker.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("IdCreatedBy")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("CreatedBy");
-
-                    b.Property<string>("IdUpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("UpdatedBy");
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -463,11 +453,11 @@ namespace TaskTracker.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
-
-                    b.HasIndex("IdCreatedBy");
-
-                    b.HasIndex("IdUpdatedBy");
 
                     b.ToTable("Commands");
                 });
@@ -486,18 +476,13 @@ namespace TaskTracker.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("IdCreatedBy")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("CreatedBy");
-
-                    b.Property<string>("IdUpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("UpdatedBy");
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -508,13 +493,13 @@ namespace TaskTracker.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CommandId");
-
-                    b.HasIndex("IdCreatedBy");
-
-                    b.HasIndex("IdUpdatedBy");
 
                     b.ToTable("Projects");
                 });
@@ -533,18 +518,13 @@ namespace TaskTracker.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("IdCreatedBy")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("CreatedBy");
-
-                    b.Property<string>("IdUpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("UpdatedBy");
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -555,13 +535,13 @@ namespace TaskTracker.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ColumnID");
-
-                    b.HasIndex("IdCreatedBy");
-
-                    b.HasIndex("IdUpdatedBy");
 
                     b.ToTable("Tasks");
                 });
@@ -634,48 +614,13 @@ namespace TaskTracker.Data.Migrations
 
             modelBuilder.Entity("TaskTracker.Models.Column", b =>
                 {
-                    b.HasOne("TaskTracker.Models.ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("IdCreatedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TaskTracker.Models.ApplicationUser", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("IdUpdatedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TaskTracker.Models.Project", "Project")
                         .WithMany("Columns")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CreatedBy");
-
                     b.Navigation("Project");
-
-                    b.Navigation("UpdatedBy");
-                });
-
-            modelBuilder.Entity("TaskTracker.Models.Command", b =>
-                {
-                    b.HasOne("TaskTracker.Models.ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("IdCreatedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TaskTracker.Models.ApplicationUser", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("IdUpdatedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("TaskTracker.Models.Project", b =>
@@ -686,23 +631,7 @@ namespace TaskTracker.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskTracker.Models.ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("IdCreatedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TaskTracker.Models.ApplicationUser", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("IdUpdatedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Command");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("TaskTracker.Models.Task", b =>
@@ -713,23 +642,7 @@ namespace TaskTracker.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskTracker.Models.ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("IdCreatedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TaskTracker.Models.ApplicationUser", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("IdUpdatedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Column");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("UserCommand", b =>

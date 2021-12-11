@@ -25,14 +25,24 @@ builder.Services.AddAuthentication().AddIdentityServerJwt();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if( app.Environment.IsDevelopment() )
+if( app.Environment.IsDevelopment())
+{
 	app.UseMigrationsEndPoint();
-else
+	app.UseSwagger();
+	app.UseSwaggerUI(c =>
+	{
+		c.SwaggerEndpoint("/api/swagger/v1/swagger.json", "v1");
+		c.RoutePrefix = String.Empty;
+	});
+}
+//else
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
+	//app.UseHsts();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -46,6 +56,5 @@ app.MapControllerRoute( "default", "{controller}/{action=Index}/{id?}" );
 app.MapRazorPages();
 
 app.MapFallbackToFile( "index.html" );
-;
 
 app.Run();
