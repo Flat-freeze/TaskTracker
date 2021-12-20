@@ -13,6 +13,8 @@ using System.Collections;
 using TaskTracker.ViewModels;
 using System.Text.Json;
 using Microsoft.Build.Evaluation;
+using AutoFilter;
+using TaskTracker.Models.Filtrers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -34,12 +36,35 @@ public class TeamController : OperationController
 
     // GET: api/<CommandController>
     [HttpGet]
-    public OperationResult<PageOf<Team>> Get(int page = 1, int count = 5)
+    public OperationResult<PageOf<Team>> Get(int page, int count)
     {
-        var hContext = HttpContext;   
-        var data = _dbContext.Commands.Where(c=>c.IdCreatedBy == UserId).ToPagedList(page, count).ToPageOf();
-        var result = GetResult(data, "Page of Commands");
-        return result;
+        //if (page <= 0)
+        //{
+        //    page = 1;
+        //}
+        //if (count <= 0)
+        //{
+        //    count= 1;
+        //}
+        var data = _dbContext.Commands.Where(c => c.IdCreatedBy == UserId).ToPagedList(page, count).ToPageOf();
+        return GetResult(data, "Page of Commands");
+    }
+
+    public OperationResult<PageOf<Team>> Filter(int page, int count, string title = "", string orderBy = "title", bool desk = false)
+    {
+        TitleFilter? filter = new()
+        {
+            Title = title,
+            OrderBy = orderBy,
+            Desk = desk,
+        };
+        var data = _dbContext.Commands.Where(c => c.IdCreatedBy == UserId).AutoFilter(filter, ComposeKind.Or);
+
+        if (filter != null)
+            data = (filter.Desk) ? data.OrderByDescending(filter.OrderBy) : data.OrderBy(filter.OrderBy);
+
+        var result = data.ToPagedList(page, count).ToPageOf();
+        return GetResult(result, "Page of Commands");
     }
 
     // GET api/<CommandController>/5
@@ -117,7 +142,7 @@ public class TeamController : OperationController
         var result = new OperationResult<Team>();
         try
         {
-            var dbCommand = _dbContext.Commands.Include(c=>c.Users).First(x => x.Id == id);
+            var dbCommand = _dbContext.Commands.Include(c => c.Users).First(x => x.Id == id);
             dbCommand.Title = command.Title;
             dbCommand.Description = command.Description;
             dbCommand.Users = command.Users;

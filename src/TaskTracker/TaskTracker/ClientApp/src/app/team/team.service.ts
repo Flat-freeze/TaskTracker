@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {OperationResult} from "../interfaces/operation-result";
 import {PagedList} from "../interfaces/paged-list";
 import {Team} from "./team";
+import {TeamFilter} from "./team-filter";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class TeamService {
     this.apiUrl = baseUrl + "api/team";
   }
 
-  public getPage(pageNumber: number = 0, pageCount = 7) {
+  public getPage(pageNumber: number, pageCount :number, filter: TeamFilter) {
     console.log(pageNumber.toString()+" | "+pageCount.toString());
     return this.http.get<OperationResult<PagedList<Team>>>(this.apiUrl +`?page=${pageNumber+1}&count=${pageCount}`);
   }
