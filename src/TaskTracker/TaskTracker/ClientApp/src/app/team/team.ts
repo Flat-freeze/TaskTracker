@@ -1,5 +1,5 @@
 import {Identify} from "../interfaces/identify";
-import {Describe} from "../interfaces/describe";
+import {Described} from "../interfaces/described";
 
-export interface Team extends Identify, Describe {
+export interface Team extends Identify, Described {
 }
