@@ -26,6 +26,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {PaginatorModule} from "primeng/paginator";
 import { TeamListComponent } from './team/team-list/team-list.component';
+import {PanelMenuModule} from "primeng/panelmenu";
 
 
 @NgModule({
@@ -35,28 +36,29 @@ import { TeamListComponent } from './team/team-list/team-list.component';
     HomeComponent,
     TeamListComponent,
   ],
-  imports: [
-    BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
-    HttpClientModule,
-    FormsModule,
-    ApiAuthorizationModule,
-    AppRoutingModule,
-    AccordionModule,
-    ButtonModule,
-    MessagesModule,
-    RatingModule,
-    ToolbarModule,
-    FileUploadModule,
-    TableModule,
-    RippleModule,
-    ToastModule,
-    DialogModule,
-    ConfirmDialogModule,
-    BrowserAnimationsModule,
-    InputTextModule,
-    InputTextareaModule,
-    PaginatorModule
-  ],
+    imports: [
+        BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
+        HttpClientModule,
+        FormsModule,
+        ApiAuthorizationModule,
+        AppRoutingModule,
+        AccordionModule,
+        ButtonModule,
+        MessagesModule,
+        RatingModule,
+        ToolbarModule,
+        FileUploadModule,
+        TableModule,
+        RippleModule,
+        ToastModule,
+        DialogModule,
+        ConfirmDialogModule,
+        BrowserAnimationsModule,
+        InputTextModule,
+        InputTextareaModule,
+        PaginatorModule,
+        PanelMenuModule
+    ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true},
     MessageService, ConfirmationService

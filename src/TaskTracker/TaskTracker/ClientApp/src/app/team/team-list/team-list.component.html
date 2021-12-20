@@ -6,25 +6,26 @@
     #dt
     [(first)]="Result.firstItemOnPage"
     [(selection)]="SelectedTeams"
+    [columns]="Columns"
     [globalFilterFields]="[
       'title',
     ]"
     [rowHover]="true"
-    [rows]="Result.pageSize"
+    [rows]="PageSize"
     [showCurrentPageReport]="true"
     [totalRecords]="Result.totalItemCount"
     [value]="Result.source"
+
     dataKey="id"
-    style="height: 70vh;"
   >
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
-        <h5 class="p-m-0">Manage Teams</h5>
+        <h5 class="m-0">Manage Teams</h5>
         <div>
           <span class="p-input-icon-left mr-2">
           <i class="pi pi-search"></i>
           <input
-            (input)="dt.filterGlobal(getValue($event), 'contains')"
+            (input)="filter(getValue($event))"
             pInputText
             placeholder="Search..."
             type="text"
@@ -39,30 +40,28 @@
       </div>
     </ng-template>
 
-    <ng-template pTemplate="header">
+    <ng-template let-columns pTemplate="header">
       <tr>
         <th style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th pSortableColumn="title">
-          Title
-          <p-sortIcon field="title"></p-sortIcon>
+        <th *ngFor="let col of columns">
+          {{col.header}}
         </th>
-        <th pSortableColumn="description">
-          Description
-          <p-sortIcon field="description"></p-sortIcon>
+        <th>
+          Options
         </th>
-        <th></th>
       </tr>
     </ng-template>
 
-    <ng-template let-team pTemplate="body">
-      <tr>
+    <ng-template let-columns="columns" let-team pTemplate="body">
+      <tr #tr (click)="log(tr.getBoundingClientRect())">
         <td>
           <p-tableCheckbox [value]="team"></p-tableCheckbox>
         </td>
-        <td>{{ team.title }}</td>
-        <td>{{ team.description }}</td>
+        <td *ngFor="let col of columns">
+          {{team[col.field]}}
+        </td>
         <td>
           <button
             (click)="edit(team)"
@@ -85,7 +84,8 @@
     <ng-template pTemplate="footer">
       <tr>
         <td colspan="4" style="background-color:var(--bs-body-bg);">
-          <p-paginator (onPageChange)="paginate($event)" [rows]="Result.pageSize" [totalRecords]="Result.totalItemCount" class=""></p-paginator>
+          <p-paginator (onPageChange)="paginate($event)" [rows]="Result.pageSize" [totalRecords]="Result.totalItemCount"
+                       class=""></p-paginator>
         </td>
       </tr>
     </ng-template>
@@ -97,7 +97,6 @@
     </ng-template>
   </p-table>
 </div>
-
 
 <p-dialog
   [(visible)]="TeamDialog"
@@ -136,7 +135,7 @@
 
   <ng-template pTemplate="footer">
     <button
-      (click)="hideDialog()"
+      (click)="cancel()"
       class="p-button-text"
       icon="pi pi-times"
       label="Cancel"

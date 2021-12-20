@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {OperationResult} from "../../interfaces/operation-result";
 import {PagedList} from "../../interfaces/paged-list";
 import {TeamService} from "../team.service";
-import {ConfirmationService, MessageService} from "primeng/api";
+import {ConfirmationService, MenuItem, MessageService} from "primeng/api";
 import {Team} from "../team";
+import {TeamFilter} from "../team-filter";
 
 @Component({
   selector: 'app-team-list',
@@ -13,42 +14,50 @@ import {Team} from "../team";
 export class TeamListComponent implements OnInit {
   Raw: OperationResult<PagedList<Team>>;
   Result: PagedList<Team>;
-
+  Filter: TeamFilter;
   Team: Team;
+
+  CurrentPage: number = 1;
+  PageSize: number = 5;
 
   SelectedTeams: Team[] | null;
 
   TeamDialog: boolean;
 
   submitted: boolean;
+  Columns: any[];
+
+  items: MenuItem[];
 
   constructor(private teamService: TeamService, private confirmationService: ConfirmationService, private messageService: MessageService) {
+    this.Filter = new TeamFilter();
   }
 
   ngOnInit(): void {
-    setInterval(() => this.refreshData(), 300000)
+    // setInterval(() => this.refreshData(), 1000)
     this.refreshData();
+    this.Columns = [
+      { field: 'title', header: 'Title' },
+      { field: 'description', header: 'Description' },
+    ];
   }
 
-  openNew() {
-    this.Team = {};
-    this.submitted = false;
-    this.TeamDialog = true;
-    console.log(this.TeamDialog);
-  }
-
-  refreshData() {
-    this.teamService.getPage().subscribe((data) => {
+  refreshData(page = this.CurrentPage-1) {
+    this.teamService.getPage(page , this.PageSize, this.Filter).subscribe((data) => {
       this.updateTable(data);
       console.log(this.Raw)
-    }, (err)=>{
+    }, (err) => {
       console.log(err);
     });
   }
 
-  updateTable(data: OperationResult<PagedList<Team>>){
+  updateTable(data: OperationResult<PagedList<Team>>) {
     this.Raw = data;
-    if (this.Raw.ok) this.Result = this.Raw.result; else console.error(this.Raw.logs);
+    if (this.Raw.ok) {
+      this.Result = this.Raw.result;
+      this.CurrentPage = this.Result.pageNumber;
+      this.PageSize = this.Result.pageSize;
+    } else console.error(this.Raw.logs);
   }
 
   deleteSelected() {
@@ -57,15 +66,10 @@ export class TeamListComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.teamService.deleteMany(this.SelectedTeams).subscribe(this.subscription("Team","Deleted"));
+        this.teamService.deleteMany(this.SelectedTeams).subscribe(this.subscription("Team", "Deleted"));
         this.SelectedTeams = null;
       }
     });
-  }
-
-  edit(team: Team) {
-    this.Team = {...team};
-    this.TeamDialog = true;
   }
 
   delete(team: Team) {
@@ -80,26 +84,6 @@ export class TeamListComponent implements OnInit {
     });
   }
 
-  hideDialog() {
-    this.TeamDialog = false;
-    this.submitted = false;
-  }
-
-  save() {
-    this.submitted = true;
-    if (this.Team.title?.trim()) {
-      if (this.Team.id) {
-        this.teamService.update(this.Team).subscribe(this.subscription("Team", "Updated"));
-      } else {
-        this.teamService.add(this.Team).subscribe(this.subscription("Team", "Created"));
-      }
-
-      this.Result.source = [...this.Result.source];
-      this.TeamDialog = false;
-      this.Team = {};
-    }
-  }
-
   getValue(event: Event): string {
     return (event.target as HTMLInputElement).value;
   }
@@ -107,11 +91,21 @@ export class TeamListComponent implements OnInit {
   subscription(targetName: string, action: string) {
     return {
       next: (data: any) => {
-        this.messageService.add({severity: 'success', summary: 'Successful', detail: `${targetName} ${action}`, life: 3000});
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: `${targetName} ${action}`,
+          life: 3000
+        });
         console.log(data);
       },
       error: (err: Error) => {
-        this.messageService.add({severity: 'error', summary: 'Error', detail: `${targetName} not ${action}`, life: 3000});
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: `${targetName} not ${action}`,
+          life: 3000
+        });
         console.error(err);
       },
       complete: () => {
@@ -125,11 +119,47 @@ export class TeamListComponent implements OnInit {
     //event.rows = Number of rows to display in new page
     //event.page = Index of the new page
     //event.pageCount = Total number of pages
-    this.teamService.getPage(event.page, 7).subscribe((data)=>{
-      this.updateTable(data);
-      console.log(data);
-    }, (err)=>{
-      console.log(err);
-    });
+    this.refreshData(event.page);
   }
+
+  filter(title: string) {
+    this.Filter.title = title;
+    this.refreshData();
+  }
+  log(log: any){
+    console.log(log);
+  }
+  //region dialog
+
+  openNew() {
+    this.Team = {};
+    this.submitted = false;
+    this.TeamDialog = true;
+  }
+
+  edit(team: Team) {
+    this.Team = {...team};
+    this.TeamDialog = true;
+  }
+
+  cancel() {
+    this.TeamDialog = false;
+    this.submitted = false;
+  }
+
+  save() {
+    this.submitted = true;
+    if (this.Team.title?.trim()) {
+      if (this.Team.id) {
+        this.teamService.update(this.Team).subscribe(this.subscription("Team", "Updated"));
+      } else {
+        this.teamService.add(this.Team).subscribe(this.subscription("Team", "Created"));
+      }
+
+      this.refreshData();
+      this.TeamDialog = false;
+      this.Team = {};
+    }
+  }
+  //endregion
 }
